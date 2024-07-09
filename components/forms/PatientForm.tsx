@@ -3,31 +3,39 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "../ui/CustomFormField";
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
+import SubmitButton from "../ui/SubmitButton";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import UserFormValidationSchema from "@/lib/validation";
+export enum FormFieldType {
+  INPUT = "input",
+  TEXTAREA = "textarea",
+  PHONE_INPUT = "phoneInput",
+  CHECKBOX = "checkbox",
+  DATE_PICKER = "datePicker",
+  SELECT = "select",
+  RADIO = "radio",
+  SKELETON = "skeleton",
+}
 
 const PatientForm = () => {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [isLoading, setIsLoading] = useState(false);
+
+  const form = useForm<z.infer<typeof UserFormValidationSchema>>({
+    resolver: zodResolver(UserFormValidationSchema),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      phone: "",
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+  function onSubmit(values: z.infer<typeof UserFormValidationSchema>) {
     console.log(values);
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
@@ -35,11 +43,35 @@ const PatientForm = () => {
           <h1 className="header">Hi there</h1>
           <p className="text-dark-700">Schedule your first appointment</p>
         </section>
-				<CustomFormField 
-				control={form.control}
-				
-				/>
-        <Button type="submit">Submit</Button>
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="Name"
+          label="Full name"
+          placeholder="John Doe"
+          iconSrc="/assets/icons/user.svg"
+          iconAlt="user"
+        />
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="email"
+          label="Email"
+          placeholder="johndoe@gmail.com"
+          iconSrc="/assets/icons/email.svg"
+          iconAlt="email"
+        />
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.PHONE_INPUT}
+          name="phone"
+          label="Phone number"
+          placeholder="(+91) 9111-000-555"
+          iconSrc="/assets/icons/user.svg"
+          iconAlt="phone"
+        />
+
+        <SubmitButton isLoading={isLoading}>Get started</SubmitButton>
       </form>
     </Form>
   );
