@@ -6,9 +6,9 @@ const UserFormValidationSchema = z.object({
     .min(2, "Username must be at least 2 characters.")
     .max(30, "Username must be at most 30 characters."),
   email: z.string().email("Invalid email address"),
-  phone: z.string().refine((phone) => {
-    return /^[0-9]{10}$/.test(phone);
-  }, "phone number must be 10 digits."),
-})
+  phone: z
+    .string()
+    .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
+});
 
 export default UserFormValidationSchema;

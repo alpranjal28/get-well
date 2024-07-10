@@ -9,6 +9,8 @@ import SubmitButton from "../ui/SubmitButton";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import UserFormValidationSchema from "@/lib/validation";
+import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/patients.actions";
 export enum FormFieldType {
   INPUT = "input",
   TEXTAREA = "textarea",
@@ -21,6 +23,7 @@ export enum FormFieldType {
 }
 
 const PatientForm = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof UserFormValidationSchema>>({
@@ -32,8 +35,28 @@ const PatientForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof UserFormValidationSchema>) {
-    console.log(values);
+  async function onSubmit({
+    name,
+    email,
+    phone,
+  }: z.infer<typeof UserFormValidationSchema>) {
+    setIsLoading(true);
+    // Handle form submission here
+    try {
+      const userData = {
+        name,
+        email,
+        phone,
+      };
+      console.log(userData);
+
+      const user = await createUser(userData);
+      console.log(user);
+
+      if (user) router.push(`/patients/${user.$id}/register`);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
