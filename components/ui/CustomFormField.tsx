@@ -49,6 +49,7 @@ const RenderField = ({
               height={24}
               width={24}
               className="ml-2"
+              style={{ height: "auto", width: "auto" }}
             />
           )}
           <FormControl>

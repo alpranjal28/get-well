@@ -5,7 +5,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div className="flex h-screen max-h-screen">
-      
       {/* TODO: OTP */}
 
       <section className="remove-scrollbar container my-auto">
@@ -16,10 +15,12 @@ export default function Home() {
             width={1000}
             alt="logo"
             className="mb-12 h-10 w-fit"
+            priority
+            style={{ height: "auto", width: "auto" }}//////
           />
 
           <PatientForm />
-          
+
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify-items-end text-dark-600 xl:text-left">
               © 2024 CarePulse
@@ -36,6 +37,7 @@ export default function Home() {
         width={1000}
         alt="home-image"
         className="side-img max-w-[50%]"
+        style={{ height: "auto", width: "auto" }}
       />
     </div>
   );
