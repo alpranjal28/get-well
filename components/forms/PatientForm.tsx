@@ -8,7 +8,7 @@ import CustomFormField from "../ui/CustomFormField";
 import SubmitButton from "../ui/SubmitButton";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import UserFormValidationSchema from "@/lib/validation";
+import { UserFormValidationSchema } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patients.actions";
 export enum FormFieldType {
@@ -48,10 +48,11 @@ const PatientForm = () => {
         email,
         phone,
       };
-      console.log(userData);
+      console.log("userData", userData);
 
+      // send data to appwrite to create user
       const user = await createUser(userData);
-      console.log(user);
+      console.log("createdUser", user);
 
       if (user) router.push(`/patients/${user.$id}/register`);
     } catch (error) {
@@ -69,7 +70,7 @@ const PatientForm = () => {
         <CustomFormField
           control={form.control}
           fieldType={FormFieldType.INPUT}
-          name="Name"
+          name="name"
           label="Full name"
           placeholder="John Doe"
           iconSrc="/assets/icons/user.svg"

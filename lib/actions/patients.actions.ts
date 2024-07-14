@@ -2,7 +2,11 @@ import { ID, Query } from "node-appwrite";
 import { users } from "../appwrite.config";
 
 export const createUser = async (user: CreateUserParams) => {
+  
   try {
+    console.log("patientActionForm",user);
+    console.log(ID.unique());
+    /////////works till here
     const newUser = await users.create(
       ID.unique(),
       user.email,
@@ -10,9 +14,13 @@ export const createUser = async (user: CreateUserParams) => {
       undefined,
       user.name
     );
+    console.log("patientActionForm newUser",newUser);
+    return newUser;
+
   } catch (error: any) {
     if (error && error?.code === 409) {
       const documents = await users.list([Query.equal(`email`, [user.email])]);
+      console.log("errorDocument",documents);
       return documents?.users[0];
     }
   }
