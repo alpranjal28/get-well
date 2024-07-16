@@ -17,6 +17,8 @@ import { formatPhoneNumberIntl } from "react-phone-number-input";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./select";
+import { Textarea } from "./textarea";
+import { Checkbox } from "./checkbox";
 
 interface CustomFormFieldProps {
   control: Control<any>;
@@ -121,7 +123,7 @@ const RenderField = ({
             onValueChange={field.onChange} ///////
             defaultValue={field.value}
           >
-            <FormControl >
+            <FormControl>
               <SelectTrigger className="shad-select-trigger">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
@@ -130,6 +132,37 @@ const RenderField = ({
               {props.children}
             </SelectContent>
           </Select>
+        </FormControl>
+      );
+
+    case FormFieldType.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={placeholder}
+            {...field}
+            className="shad-textArea"
+            disabled={props.disabled}
+          />
+        </FormControl>
+      );
+
+    case FormFieldType.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center gap-4">
+            <Checkbox
+            id={props.name}/////////////////////
+            checked={field.value}
+            onCheckedChange={field.onChange}
+
+            />
+            <label htmlFor={props.name}
+            className="checkbox-label"
+            >
+              {props.label}
+            </label>
+          </div>
         </FormControl>
       );
     default:
