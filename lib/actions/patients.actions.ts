@@ -15,7 +15,7 @@ export const createUser = async (user: CreateUserParams) => {
       user.name
     );
     console.log("patientActionForm newUser", newUser);
-    return newUser;
+    return parseStringify(newUser);//////////
   } catch (error: any) {
     // check existing user
     if (error && error?.code === 409) {
