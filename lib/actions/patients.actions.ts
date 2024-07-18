@@ -22,6 +22,8 @@ export const createUser = async (user: CreateUserParams) => {
       const documents = await users.list([Query.equal(`email`, [user.email])]);
       console.log("errorDocument", documents);
       return documents?.users[0];
+    }else{
+      console.log("errorLog",error);
     }
   }
 };

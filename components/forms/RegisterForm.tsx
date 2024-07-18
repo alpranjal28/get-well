@@ -8,7 +8,7 @@ import CustomFormField from "../ui/CustomFormField";
 import SubmitButton from "../ui/SubmitButton";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { UserFormValidationSchema } from "@/lib/validation";
+import { PatientFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
 import { createUser } from "@/lib/actions/patients.actions";
 import { FormFieldType } from "./PatientForm";
@@ -23,8 +23,8 @@ const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<z.infer<typeof UserFormValidationSchema>>({
-    resolver: zodResolver(UserFormValidationSchema),
+  const form = useForm<z.infer<typeof PatientFormValidation>>({
+    resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       name: "",
       email: "",
@@ -36,7 +36,7 @@ const RegisterForm = ({ user }: { user: User }) => {
     name,
     email,
     phone,
-  }: z.infer<typeof UserFormValidationSchema>) {
+  }: z.infer<typeof PatientFormValidation>) {
     setIsLoading(true);
     // Handle form submission here
     try {
