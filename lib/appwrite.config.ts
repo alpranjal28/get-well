@@ -8,7 +8,7 @@ export const {
   APPWRITE_PATIENT_DB,
   APPWRITE_DOCTOR_DB,
   APPWRITE_APPOINTMENT_DB,
-  APPWRITE_STORAGE,
+  APPWRITE_BUCKET_ID,
 } = process.env;
 
 const client = new sdk.Client();
@@ -30,7 +30,7 @@ client
 // .setProject(NEXT_PUBLIC_PROJECT_ID)
 // .setKey(NEXT_PUBLIC_API_KEY);
 
-export const database = new sdk.Databases(client);
+export const databases = new sdk.Databases(client);
 export const storage = new sdk.Storage(client);
 export const messaging = new sdk.Messaging(client);
 export const users = new sdk.Users(client);
