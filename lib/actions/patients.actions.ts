@@ -1,4 +1,5 @@
 "use server";
+
 import { ID, Query } from "node-appwrite";
 import {
   APPWRITE_BUCKET_ID,
@@ -11,7 +12,6 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
-
 import { InputFile } from "node-appwrite/file";
 
 export const createUser = async (user: CreateUserParams) => {
@@ -80,6 +80,19 @@ export const registerPatient = async ({
       }
     );
     return parseStringify(newPatient);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getPatient = async (userId: string) => {
+  try {
+    const patient = await databases.listDocuments(
+      APPWRITE_DATABASE_ID!,
+      APPWRITE_PATIENT_DB!,
+      [Query.equal("userId", userId)]
+    );
+    return parseStringify(patient.documents[0]);
   } catch (error) {
     console.log(error);
   }
