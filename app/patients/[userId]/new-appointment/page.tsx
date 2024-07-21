@@ -17,7 +17,7 @@ export default async function NewAppointment({
             alt="patient"
             className="mb-12 h-10 w-fit"
             priority
-            style={{ height: "auto", width: "auto" }} //////
+            style={{ height: "auto", width: "auto" }}
           />
 
           <AppointmentForm 
@@ -26,7 +26,7 @@ export default async function NewAppointment({
 					patientId={patient.$id}
 					/>
 
-          <p className="copyright">© 2024 CarePulse</p>
+          <p className="copyright mt-10 py-12">© 2024 CarePulse</p>
         </div>
       </section>
       <Image
