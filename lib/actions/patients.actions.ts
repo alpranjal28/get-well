@@ -4,7 +4,7 @@ import { ID, Query } from "node-appwrite";
 import {
   APPWRITE_BUCKET_ID,
   APPWRITE_DATABASE_ID,
-  APPWRITE_ENDPOINT,
+  NEXT_PUBLIC_APPWRITE_ENDPOINT,
   APPWRITE_PATIENT_DB,
   APPWRITE_PROJECT_ID,
   databases,
@@ -16,9 +16,6 @@ import { InputFile } from "node-appwrite/file";
 
 export const createUser = async (user: CreateUserParams) => {
   try {
-    console.log("patientActionForm", user);
-    console.log(ID.unique());
-    /////////works till here
     const newUser = await users.create(
       ID.unique(),
       user.email,
@@ -26,16 +23,17 @@ export const createUser = async (user: CreateUserParams) => {
       undefined,
       user.name
     );
-    console.log("patientActionForm newUser", newUser);
+
     return parseStringify(newUser); //////////
   } catch (error: any) {
     // check existing user
     if (error && error?.code === 409) {
       const documents = await users.list([Query.equal(`email`, [user.email])]);
       console.log("errorDocument", documents);
+
       return documents?.users[0];
     } else {
-      console.log("errorLog", error);
+      console.log(error);
     }
   }
 };
@@ -75,7 +73,7 @@ export const registerPatient = async ({
       ID.unique(),
       {
         identificationDocumentId: file?.$id || null,
-        identificationDocumentUrl: `${APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${file?.$id}/view?project=${APPWRITE_PROJECT_ID}`,
+        identificationDocumentUrl: `${NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${APPWRITE_BUCKET_ID}/files/${file?.$id}/view?project=${APPWRITE_PROJECT_ID}`,
         ...patient,
       }
     );

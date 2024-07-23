@@ -2,7 +2,7 @@ import * as sdk from "node-appwrite";
 
 export const {
   APPWRITE_PROJECT_ID,
-  APPWRITE_ENDPOINT,
+  NEXT_PUBLIC_APPWRITE_ENDPOINT,
   APPWRITE_API_KEY,
   APPWRITE_DATABASE_ID,
   APPWRITE_PATIENT_DB,
@@ -14,7 +14,7 @@ export const {
 const client = new sdk.Client();
 
 client
-  .setEndpoint(APPWRITE_ENDPOINT!)
+  .setEndpoint(NEXT_PUBLIC_APPWRITE_ENDPOINT!)
   .setProject(APPWRITE_PROJECT_ID!)
   .setKey(APPWRITE_API_KEY!);
 

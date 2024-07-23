@@ -7,10 +7,9 @@ import { Form, FormControl } from "@/components/ui/form";
 import CustomFormField from "../ui/CustomFormField";
 import SubmitButton from "../ui/SubmitButton";
 import { useState } from "react";
-import { Button } from "../ui/button";
 import { PatientFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createUser, registerPatient } from "@/lib/actions/patients.actions";
+import {  registerPatient } from "@/lib/actions/patients.actions";
 import { FormFieldType } from "./PatientForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import {
@@ -32,9 +31,9 @@ const RegisterForm = ({ user }: { user: User }) => {
     resolver: zodResolver(PatientFormValidation),
     defaultValues: {
       ...PatientFormDefaultValues,
-      name: "",
-      email: "",
-      phone: "",
+      name: user ? user.name : "",
+      email: user ? user.email : "",
+      phone: user ? user.phone : "",
     },
   });
 
@@ -68,9 +67,8 @@ const RegisterForm = ({ user }: { user: User }) => {
       if (patient) {
         router.push(`/patients/${user.$id}/new-appointment`);
       }
-
     } catch (error) {
-      console.log("RegisterForm onSubmit error", error);
+      console.log(error);
     }
     setIsLoading(false);
   }
@@ -110,6 +108,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             label="Email"
             iconSrc="/assets/icons/email.svg"
             iconAlt="email"
+            disabled={user ? true : false}
           />
           <CustomFormField
             control={form.control}

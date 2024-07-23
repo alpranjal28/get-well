@@ -1,11 +1,12 @@
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patients.actions";
+import { parseStringify } from "@/lib/utils";
 import Image from "next/image";
 
 export default async function NewAppointment({
   params: { userId },
 }: SearchParamProps) {
-	const patient = await getPatient(userId);
+	const patient = await getPatient(userId);  
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container my-auto">
@@ -24,6 +25,7 @@ export default async function NewAppointment({
 					type="create"
 					userId={userId}
 					patientId={patient.$id}
+          primaryPhysician={patient.primaryPhysician}
 					/>
 
           <p className="copyright mt-10 py-12">© 2024 CarePulse</p>

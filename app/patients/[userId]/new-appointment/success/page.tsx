@@ -12,14 +12,12 @@ const Success = async ({
 }: SearchParamProps) => {
   const appointmentId = (searchParams?.appointmentId as string) || "";
   const appointment = await getAppointment(appointmentId);
-  console.log("appointment",appointment);
+  // console.log("appointment",appointment.documents.primaryPhysician);
 
   const doctor = Doctors.find(
     (doctor) => doctor.name === appointment.primaryPhysician
   );
 
-  console.log("doctors",Doctors);
-  console.log("doctor",doctor);
   return (
     <div className="flex h-screen max-h-screen px-[5%k=]">
       <div className="success-img">
@@ -38,6 +36,7 @@ const Success = async ({
             height={300}
             width={280}
             alt="success"
+            unoptimized
           />
           <h2 className="header mb-6 max-w-[600px] text-center">
             Your <span className="text-green-500">appointment request</span> has

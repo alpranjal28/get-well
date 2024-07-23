@@ -14,7 +14,7 @@ import Image from "next/image";
 import "react-phone-number-input/style.css";
 import PhoneInputWithCountrySelect from "react-phone-number-input";
 import { formatPhoneNumberIntl } from "react-phone-number-input";
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./select";
@@ -68,6 +68,7 @@ const RenderField = ({
           )}
           <FormControl>
             <Input
+              disabled={props.disabled}
               placeholder={placeholder}
               {...field}
               className="shad-input border-0"

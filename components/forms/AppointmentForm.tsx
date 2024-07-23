@@ -7,10 +7,8 @@ import { Form } from "@/components/ui/form";
 import CustomFormField from "../ui/CustomFormField";
 import SubmitButton from "../ui/SubmitButton";
 import { useState } from "react";
-import { Button } from "../ui/button";
 import { getAppointmentSchema } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/patients.actions";
 import { FormFieldType } from "./PatientForm";
 import Image from "next/image";
 import { SelectItem } from "../ui/select";
@@ -27,22 +25,29 @@ const AppointmentForm = ({
   type,
   appointment,
   setOpen,
+  primaryPhysician,
 }: {
   userId: string;
   patientId: string;
   type: "schedule" | "cancel" | "create";
   appointment?: Appointment;
-  setOpen: (open: boolean) => void;
+  setOpen?: (open: boolean) => void;
+  primaryPhysician?: string;
 }) => {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(false);  
+  const [isLoading, setIsLoading] = useState(false);
 
   const AppointmentFormValidation = getAppointmentSchema(type);
 
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
     resolver: zodResolver(AppointmentFormValidation),
     defaultValues: {
-      primaryPhysician: appointment ? appointment.primaryPhysician : "",
+      primaryPhysician: primaryPhysician
+        ? primaryPhysician
+        : appointment
+        ? appointment.primaryPhysician
+        : "",
+
       schedule: appointment ? new Date(appointment.schedule) : new Date(),
       reason: appointment ? appointment.reason : "",
       note: appointment ? appointment.note : "",
@@ -53,8 +58,12 @@ const AppointmentForm = ({
   async function onSubmit(values: z.infer<typeof AppointmentFormValidation>) {
     setIsLoading(true);
 
+    // Appointments when created will have default status of pending
     let status;
     switch (type) {
+      case "create":
+        status = "pending";
+        break;
       case "schedule":
         status = "scheduled";
         break;
@@ -66,7 +75,7 @@ const AppointmentForm = ({
     }
 
     try {
-      if (type === "schedule" && patientId) {
+      if (type === "create" && patientId) {
         const appointmentData = {
           userId,
           patient: patientId,
