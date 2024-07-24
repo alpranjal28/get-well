@@ -1,4 +1,4 @@
-import PatientForm from "@/components/forms/PatientForm";
+import RegisterForm from "@/components/forms/RegisterForm";
 import PasskeyModal from "@/components/PasskeyModal";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,7 +21,7 @@ export default function Home({ searchParams }: SearchParamProps) {
             style={{ height: "auto", width: "auto" }} //////
           />
 
-          <PatientForm />
+          <RegisterForm />
 
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify-items-end text-dark-600 xl:text-left">

@@ -1,4 +1,4 @@
-import RegisterForm from "@/components/forms/RegisterForm";
+import PatientForm from "@/components/forms/PatientForm";
 import { getUser } from "@/lib/actions/patients.actions";
 import Image from "next/image";
 import React from "react";
@@ -19,7 +19,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
             style={{ height: "auto", width: "auto" }} //////
           />
 
-          <RegisterForm user={user} />
+          <PatientForm user={user} />
 
           <p className="copyright py-12">
             © 2024 CarePulse

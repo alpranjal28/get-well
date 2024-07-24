@@ -9,7 +9,7 @@ import SubmitButton from "../ui/SubmitButton";
 import { useState } from "react";
 import { getAppointmentSchema } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { FormFieldType } from "./PatientForm";
+import { FormFieldType } from "./RegisterForm";
 import Image from "next/image";
 import { SelectItem } from "../ui/select";
 import { Doctors } from "@/constants";
@@ -36,6 +36,8 @@ const AppointmentForm = ({
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  console.log("userId", userId);//created at homepage
+  console.log("patientId", patientId);//created at landing page
 
   const AppointmentFormValidation = getAppointmentSchema(type);
 
@@ -75,6 +77,7 @@ const AppointmentForm = ({
     }
 
     try {
+      // create an appointment
       if (type === "create" && patientId) {
         const appointmentData = {
           userId,
@@ -93,7 +96,9 @@ const AppointmentForm = ({
             `/patients/${userId}/new-appointment/success?appointmentId${appointment.userId}` ///////
           );
         }
-      } else {
+      }
+      // else update an appointment
+      else {
         const appointmentToUpdate = {
           userId,
           appointmentId: appointment?.$id!,
