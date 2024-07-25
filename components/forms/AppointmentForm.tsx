@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { optional, z } from "zod";
 import { Form } from "@/components/ui/form";
 import CustomFormField from "../ui/CustomFormField";
 import SubmitButton from "../ui/SubmitButton";
@@ -36,8 +36,6 @@ const AppointmentForm = ({
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  console.log("userId", userId);//created at homepage
-  console.log("patientId", patientId);//created at landing page
 
   const AppointmentFormValidation = getAppointmentSchema(type);
 
@@ -50,7 +48,7 @@ const AppointmentForm = ({
         ? appointment.primaryPhysician
         : "",
 
-      schedule: appointment ? new Date(appointment.schedule) : new Date(),
+      schedule: appointment ? new Date(appointment.schedule) : new Date(Date.now()),
       reason: appointment ? appointment.reason : "",
       note: appointment ? appointment.note : "",
       cancellationReason: appointment ? appointment.cancellationReason! : "",
@@ -87,6 +85,7 @@ const AppointmentForm = ({
           reason: values.reason as string,
           note: values.note,
           status: status as Status,
+          cancellationReason: ""
         };
         const appointment = await createAppointment(appointmentData);
 
@@ -98,7 +97,7 @@ const AppointmentForm = ({
         }
       }
       // else update an appointment
-      else {
+      else if (type === "schedule" || type === "cancel" && userId) {
         const appointmentToUpdate = {
           userId,
           appointmentId: appointment?.$id!,
@@ -117,6 +116,12 @@ const AppointmentForm = ({
           form.reset();
           // router.refresh()
         }
+      }
+      else{
+        console.log("Appointment onSubmit didnt register anything",
+          {userId, patientId, type, appointment, setOpen, primaryPhysician}
+        )
+        
       }
     } catch (error) {
       console.log(error);
