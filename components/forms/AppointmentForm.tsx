@@ -85,7 +85,7 @@ const AppointmentForm = ({
           reason: values.reason as string,
           note: values.note,
           status: status as Status,
-          cancellationReason: ""
+          cancellationReason: "No reason"
         };
         const appointment = await createAppointment(appointmentData);
 
