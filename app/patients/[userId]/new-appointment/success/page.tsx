@@ -5,6 +5,8 @@ import { formatDateTime } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import * as Sentry from "@sentry/nextjs";
+import { getUser } from "@/lib/actions/patients.actions";
 
 const Success = async ({
   params: { userId },
@@ -13,10 +15,13 @@ const Success = async ({
   const appointmentId = (searchParams?.appointmentId as string) || "";
   const appointment = await getAppointment(appointmentId);
   // console.log("appointment",appointment.documents.primaryPhysician);
+  const user = await getUser(userId);
 
   const doctor = Doctors.find(
     (doctor) => doctor.name === appointment.primaryPhysician
   );
+
+  Sentry.metrics.set("user_view_appointment-success", user.name);
 
   return (
     <div className="flex h-screen max-h-screen px-[5%k=]">
@@ -47,30 +52,32 @@ const Success = async ({
         <section className="request-details">
           <p>Requested appintment details</p>
           <div className="flex items-center gap-3">
-            <Image 
-						src={doctor?.image!} ////
-						height={50} 
-						width={50} 
-						alt="doctor" 
-						className="size-6"
-						/>
-					<p className="whitespace-nowrap">Dr.{doctor?.name}</p>
+            <Image
+              src={doctor?.image!} ////
+              height={50}
+              width={50}
+              alt="doctor"
+              className="size-6"
+            />
+            <p className="whitespace-nowrap">Dr.{doctor?.name}</p>
           </div>
-					<div className="flex gap-2">
-						<Image
-						src={"/assets/icons/calendar.svg"}
-						height={24}
-						width={24}
-						alt="calendar"
-						/>
-						{formatDateTime(appointment.schedule).dateTime}
-					</div>
+          <div className="flex gap-2">
+            <Image
+              src={"/assets/icons/calendar.svg"}
+              height={24}
+              width={24}
+              alt="calendar"
+            />
+            {formatDateTime(appointment.schedule).dateTime}
+          </div>
         </section>
-				<Button variant={"outline"} className="shad-primary-btn" asChild>
-					<Link href={`/patients/${userId}/new-appointment`}>New appointment</Link>
-				</Button>
+        <Button variant={"outline"} className="shad-primary-btn" asChild>
+          <Link href={`/patients/${userId}/new-appointment`}>
+            New appointment
+          </Link>
+        </Button>
 
-				<p className="copyright mt-10 py-12">© 2024 CarePulse</p>
+        <p className="copyright mt-10 py-12">© 2024 CarePulse</p>
       </div>
     </div>
   );
