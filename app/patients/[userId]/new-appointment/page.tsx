@@ -1,6 +1,5 @@
 import AppointmentForm from "@/components/forms/AppointmentForm";
 import { getPatient } from "@/lib/actions/patients.actions";
-import { parseStringify } from "@/lib/utils";
 import Image from "next/image";
 import * as Sentry from "@sentry/nextjs";
 
